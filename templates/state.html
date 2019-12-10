@@ -1,0 +1,102 @@
+<html>
+<head>
+  <title>Search by state</title>
+
+  <style>
+  body{background-color:#e6e6e6; padding:50px;font-family:sans-serif}
+  h1{border:blue dotted; text-align: center; background-color: white; padding:20px}
+  h3{text-align: center}
+  form{text-align: center}
+  div{text-align: left; font-size: 20px; padding-bottom: 15px}
+  span{border: red dotted; padding:5px}
+  table, th, td {border: 2px solid black;text-align: center;}
+  th, td {padding: 15px;border-color: gray; border-width: 1px}
+  table{margin-left:auto; margin-right:auto;}
+
+  </style>
+
+</head>
+
+<body>
+  <div><a href='/'>Go back home</a></div>
+  <h1>Search by state</h1>
+
+
+     <form id="form1" action="/state" method="POST" enctype="multipart/form-data">
+       Select state
+       <select id="mySelect" name = "state">
+         {% for x in states %}
+         <option value="{{x}}">{{x}}</option>
+         {% endfor %}
+       </select><br><br>
+
+       Select year
+       <select id="mySelect1" name = "year">
+         {% for x in years %}
+         <option value="{{x}}">{{x}}</option>
+         {% endfor %}
+       </select><br><br>
+
+       Compare by
+       <select id="mySelect2" name = "compare">
+         {% for x in comparisons %}
+         <option value="{{x}}">{{x}}</option>
+         {% endfor %}
+       </select><br><br>
+
+           <input type="submit" name="update" value="Update"/>
+           <br/>
+           <br/>
+       </form>
+
+
+
+<h3>Number of schools from this search: <span>{{result3[0][0]}}</span></h3><br>
+<h3>
+  {% for results in result %}
+  Number of schools in {{x}} in {{y}} better at {{results[0]}} according to {{z}}: <span>{{results[1]}}</span>
+  <br><br>
+  {% endfor %}
+</h3>
+
+<!-- <h3>
+  {% for x in result2 %}
+  {{x[0]}}: Better at {{x[1]}}
+  <br>
+{% endfor %}
+</h3> -->
+
+<table>
+  <thead>
+  <tr>
+    <th>School</th>
+    <th>Better at</th>
+
+  </tr>
+          </thead>
+          <tbody>
+            {% for x in result2 %}
+          <tr>
+            <td>{{x[0]}}</td>
+            <td>{{x[1]}}</td>
+          </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+  <div class="chart" id="bargraph">
+
+      <script>
+          var graphs = {{graph | safe}};
+          Plotly.plot('bargraph',graphs,{});
+      </script>
+  </div>
+
+
+</body>
+
+</html>

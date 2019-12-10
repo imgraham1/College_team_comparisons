@@ -1,0 +1,117 @@
+<html>
+<head>
+  <title>Search by state</title>
+
+  <style>
+  body{background-color:#e6e6e6; padding:50px; font-family:sans-serif}
+  h1{border:blue dotted; text-align: center; background-color: white; padding:20px}
+  h3{text-align: center}
+  form{text-align: center}
+  div{text-align: left; font-size: 20px; padding-bottom: 15px}
+  span{border: red dotted; padding:5px}
+  table, th, td {border: 2px solid black;text-align: center;}
+  th, td {padding: 15px;border-color: gray; border-width: 1px}
+  table{margin-left:auto; margin-right:auto;}
+  /* .container{display:grid; grid-template-columns: 50% 50%; grid-template-rows: auto auto}
+  .chart{grid-column-start:1; grid-column-end:2; grid-row-start:2}
+  .chart1{grid-column-start:2; grid-column-end:3; grid-row-start:2}
+  .bball{grid-column-start:1; grid-column-end:2; grid-row-start:1}
+  .fball{grid-column-start:2; grid-column-end:3; grid-row-start:1} */
+  </style>
+
+</head>
+
+<body>
+<div><a href='/'>Go back home</a></div>
+  <h1>Overview</h1>
+
+
+
+     <form id="form1" action="/overview" method="POST" enctype="multipart/form-data">
+Select year
+       <select id="mySelect1" name = "year">
+         {% for x in years %}
+         <option value="{{x}}">{{x}}</option>
+         {% endfor %}
+       </select><br><br>
+Compare by
+       <select id="mySelect2" name = "compare">
+         {% for x in comparisons %}
+         <option value="{{x}}">{{x}}</option>
+         {% endfor %}
+       </select><br><br>
+
+           <input type="submit" name="update" value="Update"/>
+           <br/>
+           <br/>
+       </form>
+
+
+
+ <h3>
+   {% for results in result1 %}
+   Number of schools in {{y}} better at {{results[0]}} according to {{z}}: <span>{{results[1]}}</span>
+   <br><br>
+   {% endfor %}
+ </h3>
+
+<br>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+
+
+<div class="container">
+
+
+  <p class="fball">Darker states represent states with more basketball schools compared by {{z}} in {{y}}</p>
+
+<div class="chart" id="bargraph">
+  {{Basketball}}
+    <script>
+        var graphs = {{basketball | safe}};
+        Plotly.plot('bargraph',graphs,{});
+    </script>
+</div>
+
+<!-- <div class="chart1" id="bargraph1">
+  {{Football}}
+    <script>
+        var graphs1 = {{football | safe}};
+        Plotly.plot('bargraph1',graphs1,{});
+    </script>
+</div> -->
+
+</div>
+
+
+
+<!-- <h2>
+  {% for x in result %}
+  {{x[0]}}: better at {{x[1]}}<br>{% endfor %}
+</h2> -->
+
+<table>
+  <thead>
+  <tr>
+    <th>School</th>
+    <th>Better at</th>
+
+  </tr>
+          </thead>
+          <tbody>
+            {% for x in result %}
+          <tr>
+            <td>{{x[0]}}</td>
+            <td>{{x[1]}}</td>
+          </tr>
+            {% endfor %}
+          </tbody>
+      </table>
+
+
+
+
+</body>
+
+</html>
